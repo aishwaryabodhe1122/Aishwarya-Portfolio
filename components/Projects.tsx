@@ -19,7 +19,6 @@ interface Project {
   githubUrl: string
   liveUrl: string
   status: string
-  impact: string
   developmentProgress?: number
   isFromGitHub?: boolean
 }
@@ -79,7 +78,6 @@ const Projects = () => {
       githubUrl: 'https://github.com/aishwaryabodhe1122/content-aggregator',
       liveUrl: 'https://content-aggregator-demo.netlify.app',
       status: 'In Development',
-      impact: 'Enhanced user experience through personalized content',
       developmentProgress: 75
     },
     {
@@ -107,7 +105,6 @@ const Projects = () => {
       githubUrl: 'https://github.com/aishwaryabodhe1122/task-management',
       liveUrl: 'https://task-manager-demo.netlify.app',
       status: 'In Development',
-      impact: 'Enhanced team collaboration and productivity',
       developmentProgress: 30
     }
   ]
@@ -204,7 +201,6 @@ const Projects = () => {
                 githubUrl: repo.html_url,
                 liveUrl: repo.homepage || '',
                 status: 'Completed', // All public repos are considered completed
-                impact: generateImpact(repo.name),
                 isFromGitHub: true
               }))
               
@@ -255,7 +251,6 @@ const Projects = () => {
                   githubUrl: repo.html_url,
                   liveUrl: repo.homepage || '',
                   status: 'Completed',
-                  impact: generateImpact(repo.name),
                   isFromGitHub: true
                 }))
                 
@@ -300,7 +295,6 @@ const Projects = () => {
         ? 'https://binance-tracker-demo.netlify.app'
         : 'https://ecommerce-analytics-demo.netlify.app',
       status: 'Completed',
-      impact: generateImpact(repoName),
       isFromGitHub: false // Indicates this is optimized fallback data
     }))
   }
@@ -704,15 +698,6 @@ const Projects = () => {
     return 'Full Stack'
   }
 
-  const generateImpact = (repoName: string): string => {
-    const impactMap: { [key: string]: string } = {
-      'binance-futures-tracker': 'Improved trading decision-making with real-time data',
-      'customer-sentiment': 'Streamlined business intelligence and reporting'
-    }
-    
-    return impactMap[repoName] || 'Enhanced user experience and productivity'
-  }
-
   // Fetch GitHub projects on component mount
   useEffect(() => {
     fetchGitHubProjects()
@@ -947,13 +932,6 @@ const Projects = () => {
                         +{project.technologies.length - 4} more
                       </span>
                     )}
-                  </div>
-                  
-                  <div className="project-impact">
-                    <small className="text-muted d-flex align-items-center">
-                      <FaRocket className="me-2" />
-                      {project.impact}
-                    </small>
                   </div>
                 </Card.Body>
               </Card>
