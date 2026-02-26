@@ -1,21 +1,32 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaArrowDown } from 'react-icons/fa'
 import Image from 'next/image'
 import AnimatedIcon from './AnimatedIcon'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
+  const ref = useRef(null)
 
   const texts = [
     'Full Stack Developer',
     'MEAN/MERN Stack Expert',
     'AI/ML Enthusiast'
   ]
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start']
+  })
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.5, 0])
 
   useEffect(() => {
     const typeSpeed = isDeleting ? 50 : 100
@@ -47,9 +58,12 @@ const Hero = () => {
   }
 
   return (
-    <section id="home" className="hero-section position-relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="hero-bg position-absolute w-100 h-100">
+    <section id="home" ref={ref} className="hero-section position-relative overflow-hidden">
+      {/* Animated Background with Parallax */}
+      <motion.div 
+        className="hero-bg position-absolute w-100 h-100"
+        style={{ y: backgroundY }}
+      >
         <div className="floating-shapes">
           <div className="code-element code-brackets animate-move1">&lt;/&gt;</div>
           <div className="code-element terminal-symbol animate-move2">$</div>
@@ -62,12 +76,15 @@ const Hero = () => {
           <div className="code-element cloud-symbol animate-move4" style={{ animationDelay: '2s' }}>☁</div>
           <div className="code-element bug-symbol animate-zigzag" style={{ animationDelay: '5s' }}>🐛</div>
         </div>
-      </div>
+      </motion.div>
 
-      <Container fluid className="position-relative z-index-2">
-        <Row className="min-vh-100 align-items-center justify-content-start">
-          <Col lg={10} xl={8} className="text-start ps-4 ps-lg-5">
-            <div className="hero-content animate-fadeInUp">
+      <motion.div 
+        style={{ y: contentY, opacity }}
+      >
+        <Container fluid className="position-relative z-index-2">
+          <Row className="min-vh-100 align-items-center justify-content-start">
+            <Col lg={10} xl={8} className="text-start ps-4 ps-lg-5">
+              <div className="hero-content animate-fadeInUp">
               <div className="mb-3">
                 <span className="badge-custom px-4 py-2 rounded-pill">
                   👋 Know About Me
@@ -147,6 +164,7 @@ const Hero = () => {
           </Col>
         </Row>
       </Container>
+      </motion.div>
 
       {/* Scroll Indicator */}
       <div className="scroll-indicator position-absolute bottom-0 start-50 translate-middle-x mb-4">

@@ -3,6 +3,7 @@
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import { FaGraduationCap, FaBriefcase, FaCode, FaAward, FaUsers, FaRocket } from 'react-icons/fa'
 import { useInView } from 'react-intersection-observer'
+import ParallaxSection from './ParallaxSection'
 
 const About = () => {
   const { ref, inView } = useInView({
@@ -109,16 +110,18 @@ const About = () => {
             <Row className="g-4">
               {stats.map((stat, index) => (
                 <Col sm={6} key={index}>
-                  <Card className={`card-custom text-center h-100 hover-lift ${inView ? 'animate-fadeInUp' : ''}`}
-                    style={{ animationDelay: `${index * 0.1}s` }}>
-                    <Card.Body className="p-4">
-                      <div className="mb-3">
-                        <stat.icon className="fs-1 gradient-text" />
-                      </div>
-                      <h3 className="h2 fw-bold mb-2 gradient-text">{stat.number}</h3>
-                      <p className="text-muted mb-0">{stat.label}</p>
-                    </Card.Body>
-                  </Card>
+                  <ParallaxSection offset={30 + index * 10}>
+                    <Card className={`card-custom text-center h-100 hover-lift ${inView ? 'animate-fadeInUp' : ''}`}
+                      style={{ animationDelay: `${index * 0.1}s` }}>
+                      <Card.Body className="p-4">
+                        <div className="mb-3">
+                          <stat.icon className="fs-1 gradient-text" />
+                        </div>
+                        <h3 className="h2 fw-bold mb-2 gradient-text">{stat.number}</h3>
+                        <p className="text-muted mb-0">{stat.label}</p>
+                      </Card.Body>
+                    </Card>
+                  </ParallaxSection>
                 </Col>
               ))}
             </Row>
