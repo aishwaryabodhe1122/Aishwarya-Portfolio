@@ -18,7 +18,8 @@ import {
   SiExpress, 
   SiMysql, 
   SiTypescript,
-  SiNextdotjs
+  SiNextdotjs,
+  SiGooglecloud
 } from 'react-icons/si'
 
 const Skills = () => {
@@ -44,6 +45,7 @@ const Skills = () => {
     { name: 'MongoDB', level: 85, icon: SiMongodb, color: '#47a248' },
     { name: 'MySQL', level: 83, icon: SiMysql, color: '#4479a1' },
     { name: 'AWS', level: 78, icon: FaAws, color: '#ff9900' },
+    { name: 'GCP', level: 85, icon: SiGooglecloud, color: '#4285f4' },
     { name: 'Express.js', level: 87, icon: SiExpress, color: '#000000' },
     { name: 'TypeScript', level: 80, icon: SiTypescript, color: '#3178c6' },
     { name: 'Next.js', level: 82, icon: SiNextdotjs, color: '#000000' },
@@ -74,7 +76,7 @@ const Skills = () => {
     },
     {
       title: 'Database & Cloud',
-      skills: ['MongoDB', 'MySQL', 'PostgreSQL', 'AWS', 'Cloud Architecture', 'CI/CD'],
+      skills: ['MongoDB', 'MySQL', 'PostgreSQL', 'AWS', 'GCP', 'Cloud Architecture', 'CI/CD'],
       icon: FaDatabase,
       color: '#47a248'
     },

@@ -163,15 +163,12 @@ const Projects = () => {
       setLoading(true)
       
       // First, show fallback data for immediate loading
-      console.log('Loading initial fallback data...')
       const fallbackProjects = getFallbackCompletedProjects()
       setGithubProjects(fallbackProjects)
       
       // Then try to fetch all public repos in the background
       setTimeout(async () => {
-        try {
-          console.log('Fetching all public repositories...')
-          
+        try {          
           const headers: HeadersInit = {
             'Accept': 'application/vnd.github.v3+json',
             'User-Agent': 'Portfolio-App'
@@ -185,9 +182,7 @@ const Projects = () => {
           if (response.ok) {
             const repos: GitHubRepo[] = await response.json()
             
-            if (Array.isArray(repos) && repos.length > 0) {
-              console.log(`Found ${repos.length} public repositories`)
-              
+            if (Array.isArray(repos) && repos.length > 0) {              
               // Filter out forked repos and include only your original projects
               const originalRepos = repos.filter(repo => 
                 !repo.fork && 
@@ -213,14 +208,12 @@ const Projects = () => {
                 isFromGitHub: true
               }))
               
-              console.log(`Converted ${allProjects.length} repositories to project cards`)
               setGithubProjects(allProjects)
             }
           } else {
             console.warn('GitHub API request failed:', response.status)
           }
         } catch (error) {
-          console.log('Background GitHub fetch failed, keeping fallback data:', error)
         }
       }, 500) // Small delay to not block initial render
       
@@ -366,10 +359,7 @@ const Projects = () => {
   const fetchProjectImage = async (repoName: string, topics: string[]): Promise<string> => {
     try {
       // Due to GitHub's rate limiting on both API and OpenGraph service,
-      // let's use a more reliable approach with direct fallback to curated images
-      
-      console.log(`Fetching image for ${repoName} - using curated approach due to GitHub rate limits`)
-      
+      // let's use a more reliable approach with direct fallback to curated images      
       // For now, use curated high-quality images that match each project
       // This ensures reliability and fast loading
       const curatedImages: { [key: string]: string } = {
@@ -378,7 +368,6 @@ const Projects = () => {
       }
       
       if (curatedImages[repoName]) {
-        console.log(`Using curated image for ${repoName}:`, curatedImages[repoName])
         return curatedImages[repoName]
       }
       
@@ -496,12 +485,6 @@ const Projects = () => {
       'customer-sentiment': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop&q=90',
       'binance-futures-tracker': 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop&q=90'
     }
-    
-    console.log(`Trying direct GitHub image for ${repoName}:`, directImageUrls[0])
-    
-    // Since your direct GitHub URL works, let's use it directly
-    // This ensures we get your custom uploaded images
-    console.log(`Using direct GitHub image: ${directImageUrls[0]}`)
     
     return directImageUrls[0]
   }
@@ -861,7 +844,6 @@ const Projects = () => {
                       const notTriedYet = alternativeUrls.find(url => url !== currentSrc)
                       
                       if (notTriedYet) {
-                        console.log(`Trying alternative GitHub image: ${notTriedYet}`)
                         target.src = notTriedYet
                         return
                       }
@@ -872,7 +854,6 @@ const Projects = () => {
                         'binance-futures-tracker': 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop&q=90'
                       }
                       
-                      console.log(`Using final fallback image for ${repoName}`)
                       target.src = fallbackImages[repoName] || getCuratedImageByTopics(repoName, project.technologies, project.technologies[0] || 'JavaScript')
                     }}
                   />

@@ -16,7 +16,7 @@ const Experience = () => {
       title: 'Full-stack Developer',
       company: 'PluginLive',
       location: 'Pune, India',
-      period: 'Aug 2025 - Present',
+      period: 'Aug 2025 - Feb 2026',
       description: 'Building and maintaining Assessment and ATS (Applicant Tracking System) for student onboarding and placement management',
       achievements: [
         'Developing comprehensive assessment platform for student evaluation',
@@ -59,11 +59,10 @@ const Experience = () => {
       title: 'MBA in Artificial Intelligence & Machine Learning',
       company: 'D.Y. Patil Centre for Online Learning',
       location: 'Pune, India',
-      period: 'July 2023 - Nov 2025',
+      period: 'July 2023 - Aug 2025',
       description: 'Specializing in AI/ML with focus on practical applications in software development',
       achievements: [
-        'Achieved CGPA of 8.78 in Year I',
-        'Achieved CGPA of 8.43 in Semester III',
+        'Achieved overall CGPA of 8.7',
         'Focusing on AI/ML integration in software solutions',
         'Advanced coursework in machine learning algorithms and data science'
       ],
