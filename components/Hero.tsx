@@ -152,7 +152,7 @@ const Hero = () => {
       <style jsx>{`
         .hero-section {
           min-height: 100vh;
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+          background: var(--bg-dark);
           position: relative;
           padding-left: 0;
           margin-left: 0;

@@ -3,10 +3,18 @@
 import { useState, useEffect } from 'react'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import { FaCode, FaBars, FaTimes } from 'react-icons/fa'
+import ThemeToggle from './ThemeToggle'
+import { useTheme } from '@/context/ThemeContext'
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false)
   const [expanded, setExpanded] = useState(false)
+  const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,7 +40,7 @@ const Navigation = () => {
       fixed="top"
       className={`transition-all duration-300 ${
         scrolled 
-          ? 'bg-white shadow-lg backdrop-blur-md bg-opacity-95' 
+          ? (theme === 'dark' ? 'navbar-scrolled-dark' : 'navbar-scrolled-light')
           : 'bg-transparent'
       }`}
       expanded={expanded}
@@ -47,7 +55,7 @@ const Navigation = () => {
           }}
         >
           {/* <FaCode className="me-2 gradient-text" /> */}
-          <span className={scrolled ? 'text-dark' : 'text-white'}>
+          <span className={scrolled ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'}>
             Aishwarya Bodhe
           </span>
         </Navbar.Brand>
@@ -58,9 +66,9 @@ const Navigation = () => {
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? (
-            <FaTimes className={scrolled ? 'text-dark' : 'text-white'} />
+            <FaTimes className={scrolled ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'} />
           ) : (
-            <FaBars className={scrolled ? 'text-dark' : 'text-white'} />
+            <FaBars className={scrolled ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'} />
           )}
         </Navbar.Toggle>
 
@@ -78,7 +86,7 @@ const Navigation = () => {
                 key={item.href}
                 href={`#${item.href}`}
                 className={`mx-2 fw-500 position-relative nav-link-custom ${
-                  scrolled ? 'text-dark' : 'text-white'
+                  scrolled ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'
                 }`}
                 onClick={(e) => {
                   e.preventDefault()
@@ -88,15 +96,18 @@ const Navigation = () => {
                 {item.label}
               </Nav.Link>
             ))}
-            <Nav.Link
-              href="/resume.pdf"
-              target="_blank"
-              className="ms-3 d-flex align-items-center"
-            >
-              <button className="btn-primary-custom">
-                Download CV
-              </button>
-            </Nav.Link>
+            <div className="d-flex align-items-center gap-3">
+              <ThemeToggle />
+              <Nav.Link
+                href="/resume.pdf"
+                target="_blank"
+                className="d-flex align-items-center"
+              >
+                <button className="btn-primary-custom">
+                  Download CV
+                </button>
+              </Nav.Link>
+            </div>
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -104,6 +115,19 @@ const Navigation = () => {
       <style jsx>{`
         .navbar {
           padding: 1rem 0;
+          transition: all 0.3s ease;
+        }
+
+        .navbar-scrolled-light {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-scrolled-dark {
+          background: rgba(15, 23, 42, 0.95);
+          backdrop-filter: blur(10px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .navbar-brand {
@@ -164,18 +188,18 @@ const Navigation = () => {
 
         @media (max-width: 991px) {
           .navbar-collapse {
-            background: rgba(255, 255, 255, 0.95);
+            background: ${theme === 'dark' ? 'rgba(15, 23, 42, 0.95)' : 'rgba(255, 255, 255, 0.95)'};
             backdrop-filter: blur(10px);
             border-radius: 15px;
             margin-top: 15px;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, ${theme === 'dark' ? '0.5' : '0.1'});
           }
 
           .nav-link-custom {
-            color: #1f2937 !important;
+            color: ${theme === 'dark' ? '#f1f5f9' : '#1f2937'} !important;
             padding: 10px 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
           }
 
           .nav-link-custom:last-child {
