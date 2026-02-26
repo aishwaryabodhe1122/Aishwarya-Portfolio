@@ -7,6 +7,7 @@ A modern, responsive portfolio website built with Next.js, React, and Python Fas
 ### Frontend
 - **Modern Design**: Clean, professional design with smooth animations
 - **Dark/Light Mode**: Toggle between dark and light themes with persistent preference
+- **Micro-interactions**: Ripple button effects, card flip animations, smooth icon transitions, and loading skeletons
 - **Responsive Layout**: Optimized for all devices and screen sizes
 - **Interactive Components**: Animated progress bars, hover effects, and transitions
 - **Performance Optimized**: Fast loading with Next.js optimization

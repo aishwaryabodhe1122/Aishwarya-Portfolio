@@ -457,11 +457,17 @@ body {
 /* Bootstrap Button Overrides */
 .btn {
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 [data-theme="dark"] .btn {
@@ -474,6 +480,39 @@ body {
   background-color: var(--bg-primary) !important;
   color: var(--text-secondary) !important;
   border-color: var(--bg-primary) !important;
+}
+
+/* Micro-interaction Enhancements */
+.hover-lift-smooth {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift-smooth:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+}
+
+.icon-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
+}
+
+.icon-hover:hover {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.card-interactive {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+}
+
+.card-interactive:active {
+  transform: translateY(-2px);
 }
 
 /* Bootstrap Alert Overrides */

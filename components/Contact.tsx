@@ -4,6 +4,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap'
 import { useInView } from 'react-intersection-observer'
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin, FaClock, FaDownload } from 'react-icons/fa'
 import { SiGmail, SiGithub, SiLinkedin } from 'react-icons/si'
+import AnimatedIcon from './AnimatedIcon'
 
 const Contact = () => {
   const { ref, inView } = useInView({
@@ -72,9 +73,11 @@ const Contact = () => {
                     <Card className={`contact-card h-100 ${inView ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: `${index * 0.1}s` }}>
                       <Card.Body className="text-center p-4 d-flex flex-column h-100">
                         <div className="contact-content flex-grow-1 d-flex flex-column justify-content-center">
-                          <div className="contact-icon-large mb-3" style={{ color: info.color }}>
-                            <info.icon />
-                          </div>
+                          <AnimatedIcon hoverScale={1.2} hoverRotate={10}>
+                            <div className="contact-icon-large mb-3" style={{ color: info.color }}>
+                              <info.icon />
+                            </div>
+                          </AnimatedIcon>
                           <h5 className="fw-bold mb-2">{info.title}</h5>
                           <p className="text-muted mb-0 contact-value">{info.value}</p>
                         </div>

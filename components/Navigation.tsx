@@ -5,6 +5,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap'
 import { FaCode, FaBars, FaTimes } from 'react-icons/fa'
 import ThemeToggle from './ThemeToggle'
 import { useTheme } from '@/context/ThemeContext'
+import RippleButton from './RippleButton'
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false)
@@ -98,15 +99,15 @@ const Navigation = () => {
             ))}
             <div className="d-flex align-items-center gap-3">
               <ThemeToggle />
-              <Nav.Link
+              <a
                 href="/resume.pdf"
                 target="_blank"
-                className="d-flex align-items-center"
+                className="d-flex align-items-center text-decoration-none"
               >
-                <button className="btn-primary-custom">
+                <RippleButton variant="primary">
                   Download CV
-                </button>
-              </Nav.Link>
+                </RippleButton>
+              </a>
             </div>
           </Nav>
         </Navbar.Collapse>
