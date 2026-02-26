@@ -8,18 +8,34 @@ import Experience from '@/components/Experience'
 import Projects from '@/components/Projects'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
+import PageTransition from '@/components/PageTransition'
+import SectionTransition from '@/components/SectionTransition'
 
 export default function Home() {
   return (
-    <main>
-      <Navigation />
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Contact />
-      <Footer />
-    </main>
+    <PageTransition>
+      <main>
+        <Navigation />
+        <Hero />
+        <SectionTransition direction="up" delay={0.1}>
+          <About />
+        </SectionTransition>
+        <SectionTransition direction="up" delay={0.1}>
+          <Skills />
+        </SectionTransition>
+        <SectionTransition direction="up" delay={0.1}>
+          <Experience />
+        </SectionTransition>
+        <SectionTransition direction="up" delay={0.1}>
+          <Projects />
+        </SectionTransition>
+        <SectionTransition direction="up" delay={0.1}>
+          <Contact />
+        </SectionTransition>
+        <SectionTransition direction="up" delay={0.1}>
+          <Footer />
+        </SectionTransition>
+      </main>
+    </PageTransition>
   )
 }
