@@ -73,6 +73,7 @@ const AdminLoginPage = () => {
                         required
                         className="ps-5"
                         style={{ paddingLeft: '2.5rem' }}
+                        autoComplete="email"
                       />
                     </div>
                   </Form.Group>
@@ -89,6 +90,7 @@ const AdminLoginPage = () => {
                         required
                         className="ps-5 pe-5"
                         style={{ paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
+                        autoComplete="current-password"
                       />
                       <button
                         type="button"
