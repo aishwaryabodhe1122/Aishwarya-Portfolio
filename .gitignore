@@ -184,3 +184,7 @@ cython_debug/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Markdown files
+*.md
+!README.md

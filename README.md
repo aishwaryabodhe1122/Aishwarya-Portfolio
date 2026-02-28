@@ -19,7 +19,19 @@ A modern, responsive portfolio website built with Next.js, React, and Python Fas
 - **Skills**: Animated progress bars and categorized skill sets
 - **Experience**: Timeline view of work experience and education
 - **Projects**: Interactive project cards with detailed modals
+- **Blog**: Full-featured blog with markdown support, categories, tags, and search
 - **Contact**: Functional contact form with validation
+
+### Admin Dashboard
+- **Secure Authentication**: NextAuth.js with credential-based login
+- **Content Management**: Full CRUD operations for all portfolio sections
+- **About Me Management**: Edit bio, stats, highlights, and badges
+- **Skills Management**: Add/edit/delete technical and soft skills with categories
+- **Experience & Education**: Manage work experience and educational background
+- **Blog Management**: Create, edit, and delete blog posts with rich text editor (TipTap)
+- **Dynamic Data**: All changes reflect immediately on the portfolio
+- **File-based Storage**: JSON file storage with automatic backups
+- **Optimized Performance**: Dynamic imports and SWR caching for fast navigation
 
 ### Backend (Future AI Features)
 - **FastAPI Backend**: RESTful API with automatic documentation
@@ -34,9 +46,13 @@ A modern, responsive portfolio website built with Next.js, React, and Python Fas
 - **Next.js 14** - React framework with App Router
 - **React 18** - UI library with hooks and context
 - **TypeScript** - Type-safe JavaScript
+- **NextAuth.js** - Authentication for Next.js
 - **Bootstrap 5** - CSS framework for responsive design
 - **Framer Motion** - Animation library
 - **React Icons** - Icon library
+- **SWR** - React Hooks for data fetching
+- **TipTap** - Rich text editor for blog posts
+- **bcryptjs** - Password hashing for authentication
 
 ### Backend
 - **Python FastAPI** - Modern, fast web framework
@@ -86,6 +102,40 @@ A modern, responsive portfolio website built with Next.js, React, and Python Fas
 
 5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
+
+### Admin Dashboard Setup
+
+1. **Configure environment variables**
+   
+   Edit `.env.local` with your admin credentials:
+   ```env
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-secret-key-here
+   ADMIN_EMAIL=your-email@example.com
+   ADMIN_PASSWORD_HASH=your-bcrypt-hash
+   ```
+
+2. **Generate password hash**
+   
+   Use bcrypt to hash your password:
+   ```bash
+   # Using Node.js
+   node -e "console.log(require('bcryptjs').hashSync('your-password', 10))"
+   ```
+
+3. **Access admin dashboard**
+   
+   Navigate to [http://localhost:3000/admin](http://localhost:3000/admin)
+   - Login with your configured email and password
+   - Manage all portfolio content from the dashboard
+
+4. **Admin features**
+   - `/admin/dashboard` - Overview and quick actions
+   - `/admin/about` - Edit About Me section
+   - `/admin/skills` - Manage skills
+   - `/admin/skill-categories` - Manage skill categories
+   - `/admin/experience` - Manage experience and education
+   - `/admin/blog` - Create and manage blog posts
 
 ### Backend Setup (Optional)
 

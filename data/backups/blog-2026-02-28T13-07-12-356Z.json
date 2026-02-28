@@ -1,0 +1,92 @@
+[
+  {
+    "id": "1",
+    "title": "Building Scalable Microservices with Node.js and Docker",
+    "slug": "building-scalable-microservices-with-node-js-and-docker",
+    "excerpt": "Learn how to architect and deploy production-ready microservices using Node.js, Express, and Docker containers with best practices for scalability.",
+    "content": "# Building Scalable Microservices with Node.js and Docker\n\n## Introduction\n\nMicroservices architecture has become the de facto standard for building modern, scalable applications. In this comprehensive guide, we'll explore how to build production-ready microservices using Node.js and Docker.\n\n## Why Microservices?\n\nMicroservices offer several advantages:\n\n- **Scalability**: Scale individual services independently\n- **Flexibility**: Use different technologies for different services\n- **Resilience**: Failure in one service doesn't bring down the entire system\n- **Faster Development**: Teams can work on services independently\n\n## Setting Up Your Environment\n\nFirst, ensure you have the following installed:\n\n```bash\nnode --version  # v18.0.0 or higher\ndocker --version  # Docker version 20.10.0 or higher\n```\n\n## Creating a Microservice\n\nLet's create a simple user service:\n\n```javascript\n// server.js\nconst express = require('express');\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.use(express.json());\n\napp.get('/health', (req, res) => {\n  res.json({ status: 'healthy' });\n});\n\napp.get('/users', async (req, res) => {\n  // Fetch users from database\n  res.json({ users: [] });\n});\n\napp.listen(PORT, () => {\n  console.log(`User service running on port ${PORT}`);\n});\n```\n\n## Dockerizing the Service\n\nCreate a `Dockerfile`:\n\n```dockerfile\nFROM node:18-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --only=production\nCOPY . .\nEXPOSE 3000\nCMD [\"node\", \"server.js\"]\n```\n\n## Docker Compose for Multiple Services\n\n```yaml\nversion: '3.8'\nservices:\n  user-service:\n    build: ./user-service\n    ports:\n      - \"3001:3000\"\n    environment:\n      - DATABASE_URL=mongodb://mongo:27017/users\n  \n  product-service:\n    build: ./product-service\n    ports:\n      - \"3002:3000\"\n    environment:\n      - DATABASE_URL=mongodb://mongo:27017/products\n  \n  mongo:\n    image: mongo:6\n    ports:\n      - \"27017:27017\"\n    volumes:\n      - mongo-data:/data/db\n\nvolumes:\n  mongo-data:\n```\n\n## Best Practices\n\n1. **API Gateway**: Use an API gateway to route requests\n2. **Service Discovery**: Implement service discovery for dynamic environments\n3. **Health Checks**: Always include health check endpoints\n4. **Logging**: Centralized logging with tools like ELK stack\n5. **Monitoring**: Use Prometheus and Grafana for monitoring\n\n## Conclusion\n\nBuilding microservices with Node.js and Docker provides a robust foundation for scalable applications. Start small, iterate, and scale as needed.\n\nHappy coding! 🚀",
+    "author": {
+      "name": "Aishwarya Bodhe",
+      "avatar": "/images/avatar.jpg"
+    },
+    "publishedAt": "2024-01-15",
+    "category": "Backend Development",
+    "tags": [
+      "Node.js",
+      "Docker",
+      "Microservices",
+      "DevOps"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=1200&h=600&fit=crop",
+    "readingTime": 8,
+    "featured": true,
+    "status": "published",
+    "updatedAt": "2026-02-28"
+  },
+  {
+    "id": "2",
+    "title": "Mastering React Hooks: A Complete Guide",
+    "slug": "mastering-react-hooks-complete-guide",
+    "excerpt": "Deep dive into React Hooks with practical examples, custom hooks, and performance optimization techniques for modern React applications.",
+    "content": "# Mastering React Hooks: A Complete Guide\n\n## Introduction\n\nReact Hooks revolutionized how we write React components. Let's explore the most important hooks and how to use them effectively.\n\n## useState Hook\n\nThe most basic hook for managing state:\n\n```jsx\nimport { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>\n        Increment\n      </button>\n    </div>\n  );\n}\n```\n\n## useEffect Hook\n\nHandle side effects in your components:\n\n```jsx\nimport { useEffect, useState } from 'react';\n\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n  \n  useEffect(() => {\n    async function fetchUser() {\n      const response = await fetch(`/api/users/${userId}`);\n      const data = await response.json();\n      setUser(data);\n    }\n    \n    fetchUser();\n  }, [userId]); // Re-run when userId changes\n  \n  return <div>{user?.name}</div>;\n}\n```\n\n## Custom Hooks\n\nCreate reusable logic:\n\n```jsx\nfunction useLocalStorage(key, initialValue) {\n  const [value, setValue] = useState(() => {\n    const stored = localStorage.getItem(key);\n    return stored ? JSON.parse(stored) : initialValue;\n  });\n  \n  useEffect(() => {\n    localStorage.setItem(key, JSON.stringify(value));\n  }, [key, value]);\n  \n  return [value, setValue];\n}\n\n// Usage\nfunction App() {\n  const [theme, setTheme] = useLocalStorage('theme', 'light');\n  \n  return (\n    <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>\n      Toggle Theme\n    </button>\n  );\n}\n```\n\n## useCallback and useMemo\n\nOptimize performance:\n\n```jsx\nimport { useCallback, useMemo } from 'react';\n\nfunction ExpensiveComponent({ items, onItemClick }) {\n  // Memoize expensive calculations\n  const sortedItems = useMemo(() => {\n    return items.sort((a, b) => a.value - b.value);\n  }, [items]);\n  \n  // Memoize callback functions\n  const handleClick = useCallback((id) => {\n    onItemClick(id);\n  }, [onItemClick]);\n  \n  return (\n    <ul>\n      {sortedItems.map(item => (\n        <li key={item.id} onClick={() => handleClick(item.id)}>\n          {item.name}\n        </li>\n      ))}\n    </ul>\n  );\n}\n```\n\n## Best Practices\n\n1. **Rules of Hooks**: Only call hooks at the top level\n2. **Dependency Arrays**: Always specify dependencies correctly\n3. **Custom Hooks**: Extract reusable logic\n4. **Performance**: Use useMemo and useCallback wisely\n5. **Cleanup**: Return cleanup functions from useEffect\n\n## Conclusion\n\nReact Hooks provide a powerful way to write cleaner, more maintainable code. Practice these patterns and you'll become a React expert!",
+    "author": {
+      "name": "Aishwarya Bodhe",
+      "avatar": "/images/avatar.jpg"
+    },
+    "publishedAt": "2024-01-10",
+    "category": "Frontend Development",
+    "tags": [
+      "React",
+      "JavaScript",
+      "Hooks",
+      "Web Development"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&h=600&fit=crop",
+    "readingTime": 10,
+    "featured": true
+  },
+  {
+    "id": "3",
+    "title": "AI/ML in Production: Lessons Learned",
+    "slug": "ai-ml-production-lessons-learned",
+    "excerpt": "Real-world insights from deploying machine learning models to production, including MLOps best practices and common pitfalls to avoid.",
+    "content": "# AI/ML in Production: Lessons Learned\n\n## Introduction\n\nDeploying machine learning models to production is vastly different from training them in notebooks. Here are key lessons from real-world ML deployments.\n\n## Model Versioning\n\nAlways version your models:\n\n```python\nimport mlflow\n\n# Track experiments\nwith mlflow.start_run():\n    mlflow.log_param(\"learning_rate\", 0.01)\n    mlflow.log_metric(\"accuracy\", 0.95)\n    mlflow.sklearn.log_model(model, \"model\")\n```\n\n## Data Validation\n\nValidate input data before predictions:\n\n```python\nfrom pydantic import BaseModel, validator\n\nclass PredictionInput(BaseModel):\n    feature1: float\n    feature2: float\n    feature3: int\n    \n    @validator('feature1', 'feature2')\n    def check_range(cls, v):\n        if not 0 <= v <= 100:\n            raise ValueError('Value must be between 0 and 100')\n        return v\n```\n\n## Model Serving with FastAPI\n\n```python\nfrom fastapi import FastAPI\nimport joblib\n\napp = FastAPI()\nmodel = joblib.load('model.pkl')\n\n@app.post(\"/predict\")\nasync def predict(input_data: PredictionInput):\n    features = [[input_data.feature1, input_data.feature2, input_data.feature3]]\n    prediction = model.predict(features)\n    return {\"prediction\": prediction[0]}\n```\n\n## Monitoring\n\nMonitor model performance in production:\n\n- **Data Drift**: Track input distribution changes\n- **Model Drift**: Monitor prediction accuracy over time\n- **Latency**: Ensure fast response times\n- **Resource Usage**: CPU, memory, GPU utilization\n\n## A/B Testing\n\nTest new models safely:\n\n```python\nimport random\n\ndef get_model_version(user_id):\n    # Route 10% of traffic to new model\n    if hash(user_id) % 10 == 0:\n        return \"model_v2\"\n    return \"model_v1\"\n```\n\n## Key Takeaways\n\n1. **Start Simple**: Deploy a simple model first\n2. **Monitor Everything**: Logs, metrics, alerts\n3. **Automate**: CI/CD for ML models\n4. **Version Control**: Code, data, and models\n5. **Feedback Loop**: Collect production data for retraining\n\n## Conclusion\n\nProduction ML is an engineering challenge. Focus on reliability, monitoring, and continuous improvement.",
+    "author": {
+      "name": "Aishwarya Bodhe",
+      "avatar": "/images/avatar.jpg"
+    },
+    "publishedAt": "2024-01-05",
+    "category": "AI & Machine Learning",
+    "tags": [
+      "AI",
+      "Machine Learning",
+      "MLOps",
+      "Python"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop",
+    "readingTime": 12,
+    "featured": false
+  },
+  {
+    "id": "4",
+    "title": "TypeScript Best Practices for Large-Scale Applications",
+    "slug": "typescript-best-practices-large-scale",
+    "excerpt": "Essential TypeScript patterns and practices for building maintainable, type-safe applications at scale.",
+    "content": "# TypeScript Best Practices for Large-Scale Applications\n\n## Introduction\n\nTypeScript brings type safety to JavaScript, but using it effectively requires following best practices.\n\n## Strict Mode\n\nAlways enable strict mode:\n\n```json\n{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true,\n    \"strictFunctionTypes\": true\n  }\n}\n```\n\n## Type Inference\n\nLet TypeScript infer types when possible:\n\n```typescript\n// Good\nconst user = {\n  name: 'John',\n  age: 30\n};\n\n// Avoid unnecessary type annotations\nconst name: string = 'John'; // Redundant\nconst name = 'John'; // Better\n```\n\n## Utility Types\n\nUse built-in utility types:\n\n```typescript\ninterface User {\n  id: string;\n  name: string;\n  email: string;\n  age: number;\n}\n\n// Partial - all properties optional\ntype PartialUser = Partial<User>;\n\n// Pick - select specific properties\ntype UserPreview = Pick<User, 'id' | 'name'>;\n\n// Omit - exclude properties\ntype UserWithoutEmail = Omit<User, 'email'>;\n\n// Readonly - make immutable\ntype ReadonlyUser = Readonly<User>;\n```\n\n## Generics\n\nCreate reusable, type-safe functions:\n\n```typescript\nfunction asyncWrapper<T>(\n  promise: Promise<T>\n): Promise<[T | null, Error | null]> {\n  return promise\n    .then(data => [data, null] as [T, null])\n    .catch(err => [null, err] as [null, Error]);\n}\n\n// Usage\nconst [data, error] = await asyncWrapper(fetchUser());\n```\n\n## Discriminated Unions\n\nHandle different states safely:\n\n```typescript\ntype LoadingState = { status: 'loading' };\ntype SuccessState<T> = { status: 'success'; data: T };\ntype ErrorState = { status: 'error'; error: string };\n\ntype AsyncState<T> = LoadingState | SuccessState<T> | ErrorState;\n\nfunction handleState<T>(state: AsyncState<T>) {\n  switch (state.status) {\n    case 'loading':\n      return 'Loading...';\n    case 'success':\n      return state.data; // TypeScript knows data exists\n    case 'error':\n      return state.error; // TypeScript knows error exists\n  }\n}\n```\n\n## Best Practices\n\n1. **Avoid `any`**: Use `unknown` instead\n2. **Use Enums Wisely**: Consider string literal unions\n3. **Type Guards**: Create custom type guards\n4. **Organize Types**: Keep types close to usage\n5. **Documentation**: Use JSDoc for complex types\n\n## Conclusion\n\nTypeScript is powerful when used correctly. Follow these practices to build robust, maintainable applications.",
+    "author": {
+      "name": "Aishwarya Bodhe",
+      "avatar": "/images/avatar.jpg"
+    },
+    "publishedAt": "2023-12-28",
+    "category": "Programming",
+    "tags": [
+      "TypeScript",
+      "JavaScript",
+      "Best Practices",
+      "Web Development"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&h=600&fit=crop",
+    "readingTime": 9,
+    "featured": false
+  }
+]

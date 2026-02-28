@@ -1,0 +1,150 @@
+[
+  {
+    "id": "1",
+    "name": "JavaScript",
+    "level": 90,
+    "category": "technical",
+    "icon": "FaJs",
+    "color": "#f7df1e"
+  },
+  {
+    "id": "2",
+    "name": "React.js",
+    "level": 88,
+    "category": "technical",
+    "icon": "FaReact",
+    "color": "#61dafb"
+  },
+  {
+    "id": "3",
+    "name": "Node.js",
+    "level": 85,
+    "category": "technical",
+    "icon": "FaNodeJs",
+    "color": "#339933"
+  },
+  {
+    "id": "4",
+    "name": "Python",
+    "level": 82,
+    "category": "technical",
+    "icon": "FaPython",
+    "color": "#3776ab"
+  },
+  {
+    "id": "5",
+    "name": "Angular",
+    "level": 80,
+    "category": "technical",
+    "icon": "FaAngular",
+    "color": "#dd0031"
+  },
+  {
+    "id": "6",
+    "name": "MongoDB",
+    "level": 85,
+    "category": "technical",
+    "icon": "SiMongodb",
+    "color": "#47a248"
+  },
+  {
+    "id": "7",
+    "name": "MySQL",
+    "level": 83,
+    "category": "technical",
+    "icon": "SiMysql",
+    "color": "#4479a1"
+  },
+  {
+    "id": "8",
+    "name": "AWS",
+    "level": 78,
+    "category": "technical",
+    "icon": "FaAws",
+    "color": "#ff9900"
+  },
+  {
+    "id": "9",
+    "name": "GCP",
+    "level": 85,
+    "category": "technical",
+    "icon": "SiGooglecloud",
+    "color": "#4285f4"
+  },
+  {
+    "id": "10",
+    "name": "Express.js",
+    "level": 87,
+    "category": "technical",
+    "icon": "SiExpress",
+    "color": "#000000"
+  },
+  {
+    "id": "11",
+    "name": "TypeScript",
+    "level": 80,
+    "category": "technical",
+    "icon": "SiTypescript",
+    "color": "#3178c6"
+  },
+  {
+    "id": "12",
+    "name": "Next.js",
+    "level": 82,
+    "category": "technical",
+    "icon": "SiNextdotjs",
+    "color": "#000000"
+  },
+  {
+    "id": "13",
+    "name": "Git",
+    "level": 88,
+    "category": "technical",
+    "icon": "FaGitAlt",
+    "color": "#f05032"
+  },
+  {
+    "id": "14",
+    "name": "Leadership",
+    "level": 85,
+    "category": "soft"
+  },
+  {
+    "id": "15",
+    "name": "Communication",
+    "level": 90,
+    "category": "soft"
+  },
+  {
+    "id": "16",
+    "name": "Problem Solving",
+    "level": 92,
+    "category": "soft"
+  },
+  {
+    "id": "17",
+    "name": "Team Collaboration",
+    "level": 88,
+    "category": "soft"
+  },
+  {
+    "id": "18",
+    "name": "Project Management",
+    "level": 80,
+    "category": "soft"
+  },
+  {
+    "id": "19",
+    "name": "Agile Methodologies",
+    "level": 85,
+    "category": "soft"
+  },
+  {
+    "id": "1772215513962",
+    "name": "Test",
+    "level": 83,
+    "category": "soft",
+    "icon": "FaAWS",
+    "color": "#6366f1"
+  }
+]

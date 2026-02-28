@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1772201542040",
+    "title": "Test",
+    "company": "Test",
+    "location": "Test",
+    "startDate": "2026-02",
+    "endDate": "Present",
+    "description": [
+      "Test"
+    ],
+    "technologies": [
+      "Test"
+    ],
+    "type": "work"
+  },
+  {
+    "id": "1772201560516",
+    "title": "Test",
+    "company": "Test",
+    "location": "Test",
+    "startDate": "2026-01",
+    "endDate": "Present",
+    "description": [
+      "Test"
+    ],
+    "technologies": [],
+    "type": "education"
+  }
+]

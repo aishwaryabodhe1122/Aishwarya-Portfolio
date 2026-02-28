@@ -10,10 +10,12 @@ import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 import PageTransition from '@/components/PageTransition'
 import SectionTransition from '@/components/SectionTransition'
+import AdminAccessShortcut from '@/components/AdminAccessShortcut'
 
 export default function Home() {
   return (
     <PageTransition>
+      <AdminAccessShortcut />
       <main>
         <Navigation />
         <Hero />

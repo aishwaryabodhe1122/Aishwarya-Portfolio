@@ -29,9 +29,17 @@ const Navigation = () => {
 
   const handleNavClick = (target: string) => {
     setExpanded(false)
-    const element = document.getElementById(target)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+    
+    // Check if we're on the home page
+    if (window.location.pathname === '/') {
+      // On home page, scroll to section
+      const element = document.getElementById(target)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    } else {
+      // On different page, redirect to home with hash
+      window.location.href = `/#${target}`
     }
   }
 
@@ -76,22 +84,27 @@ const Navigation = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             {[
-              { href: 'home', label: 'Home' },
-              { href: 'about', label: 'About' },
-              { href: 'skills', label: 'Skills' },
-              { href: 'experience', label: 'Experience' },
-              { href: 'projects', label: 'Projects' },
-              { href: 'contact', label: 'Contact' },
+              { href: 'home', label: 'Home', isSection: true },
+              { href: 'about', label: 'About', isSection: true },
+              { href: 'skills', label: 'Skills', isSection: true },
+              { href: 'experience', label: 'Experience', isSection: true },
+              { href: 'projects', label: 'Projects', isSection: true },
+              { href: '/blog', label: 'Blog', isSection: false },
+              { href: 'contact', label: 'Contact', isSection: true },
             ].map((item) => (
               <Nav.Link
                 key={item.href}
-                href={`#${item.href}`}
+                href={item.isSection ? `#${item.href}` : item.href}
                 className={`mx-2 fw-500 position-relative nav-link-custom ${
                   scrolled ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'
                 }`}
                 onClick={(e) => {
-                  e.preventDefault()
-                  handleNavClick(item.href)
+                  if (item.isSection) {
+                    e.preventDefault()
+                    handleNavClick(item.href)
+                  } else {
+                    setExpanded(false)
+                  }
                 }}
               >
                 {item.label}

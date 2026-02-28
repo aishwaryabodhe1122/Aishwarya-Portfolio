@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "title": "Frontend Development",
+    "skills": [
+      "React.js",
+      "Next.js",
+      "Angular",
+      "JavaScript",
+      "TypeScript",
+      "HTML5",
+      "CSS3",
+      "Tailwind CSS",
+      "Bootstrap"
+    ],
+    "icon": "FaReact",
+    "color": "#61dafb"
+  },
+  {
+    "id": "2",
+    "title": "Backend Development",
+    "skills": [
+      "Node.js",
+      "Express.js",
+      "Python",
+      "RESTful APIs",
+      "Microservices"
+    ],
+    "icon": "FaNodeJs",
+    "color": "#339933"
+  },
+  {
+    "id": "3",
+    "title": "Database & Cloud",
+    "skills": [
+      "MongoDB",
+      "MySQL",
+      "PostgreSQL",
+      "AWS",
+      "GCP",
+      "Cloud Architecture",
+      "CI/CD"
+    ],
+    "icon": "FaDatabase",
+    "color": "#47a248"
+  },
+  {
+    "id": "4",
+    "title": "Tools & Methodologies",
+    "skills": [
+      "Git",
+      "GitHub",
+      "Docker",
+      "Agile",
+      "Unit Testing",
+      "Code Reviews",
+      "System Design"
+    ],
+    "icon": "FaGitAlt",
+    "color": "#f05032"
+  }
+]

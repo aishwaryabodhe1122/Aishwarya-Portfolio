@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import { useInView } from 'react-intersection-observer'
 import { FaBriefcase, FaGraduationCap, FaCalendarAlt, FaMapMarkerAlt, FaTrophy } from 'react-icons/fa'
@@ -10,7 +11,8 @@ const Experience = () => {
     triggerOnce: true,
   })
 
-  const experiences = [
+  // Default hardcoded data
+  const defaultExperiences = [
     {
       type: 'work',
       title: 'Full-stack Developer',
@@ -53,7 +55,7 @@ const Experience = () => {
     }
   ]
 
-  const education = [
+  const defaultEducation = [
     {
       type: 'education',
       title: 'MBA in Artificial Intelligence & Machine Learning',
@@ -89,6 +91,214 @@ const Experience = () => {
     }
   ]
 
+  // State for dynamic data
+  const [experiences, setExperiences] = useState(defaultExperiences)
+  const [education, setEducation] = useState(defaultEducation)
+
+  useEffect(() => {
+    // Fetch experience and education from admin API
+    fetch('/api/portfolio/experience')
+      .then(res => res.json())
+      .then(data => {
+        // Only update if we have actual admin data
+        if (data && Array.isArray(data) && data.length > 0) {
+          const workExp = data.filter((item: any) => item.type === 'work')
+          const eduExp = data.filter((item: any) => item.type === 'education')
+
+          if (workExp.length > 0) {
+            // Helper function to normalize any date format to YYYY-MM
+            const normalizeToYYYYMM = (dateStr: string | null) => {
+              if (!dateStr || dateStr === 'Present') return null
+              
+              // Already in YYYY-MM format
+              if (/^\d{4}-\d{2}$/.test(dateStr)) {
+                return dateStr
+              }
+              
+              // Parse "Month YYYY" or "Month Year" format
+              const date = new Date(dateStr)
+              if (!isNaN(date.getTime())) {
+                const year = date.getFullYear()
+                const month = String(date.getMonth() + 1).padStart(2, '0')
+                return `${year}-${month}`
+              }
+              
+              return null // Invalid format
+            }
+            
+            // Helper function to format YYYY-MM to "Month YYYY"
+            const formatDate = (dateStr: string) => {
+              if (!dateStr) return ''
+              const [year, month] = dateStr.split('-')
+              const date = new Date(parseInt(year), parseInt(month) - 1)
+              return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+            }
+
+            const updatedWork = workExp.map((item: any) => {
+              const normalizedStart = normalizeToYYYYMM(item.startDate)
+              const normalizedEnd = normalizeToYYYYMM(item.endDate)
+              
+              return {
+                type: 'work',
+                title: item.title,
+                company: item.company,
+                location: item.location,
+                period: `${formatDate(normalizedStart || item.startDate)} - ${normalizedEnd ? formatDate(normalizedEnd) : 'Present'}`,
+                description: item.description,
+                achievements: item.achievements || [],
+                technologies: item.technologies || [],
+                icon: FaBriefcase,
+                color: '#6366f1',
+                rawStartDate: normalizedStart, // Normalized YYYY-MM for sorting
+                rawEndDate: normalizedEnd      // Normalized YYYY-MM for sorting
+              }
+            })
+            // Sort by end date (latest first), then by start date
+            const sortedWork = updatedWork.sort((a: any, b: any) => {
+              // Handle Present items first (using raw dates)
+              const aIsPresent = !a.rawEndDate || a.rawEndDate === ''
+              const bIsPresent = !b.rawEndDate || b.rawEndDate === ''
+              
+              if (aIsPresent && !bIsPresent) return -1 // a is Present, comes first
+              if (!aIsPresent && bIsPresent) return 1  // b is Present, comes first
+              if (aIsPresent && bIsPresent) {
+                // Both Present, sort by start date (latest first)
+                const aStart = a.rawStartDate.replace('-', '')
+                const bStart = b.rawStartDate.replace('-', '')
+                return bStart.localeCompare(aStart)
+              }
+              
+              // Both have end dates, compare them (latest first)
+              if (a.rawEndDate !== b.rawEndDate) {
+                // Convert YYYY-MM to comparable number (e.g., "2025-08" -> "202508")
+                const aEnd = a.rawEndDate.replace('-', '')
+                const bEnd = b.rawEndDate.replace('-', '')
+                return bEnd.localeCompare(aEnd)
+              }
+              
+              // Same end date, compare start dates (latest first)
+              const aStart = a.rawStartDate.replace('-', '')
+              const bStart = b.rawStartDate.replace('-', '')
+              return bStart.localeCompare(aStart)
+            })
+            setExperiences(sortedWork)
+          }
+
+          if (eduExp.length > 0) {
+            // Helper function to normalize any date format to YYYY-MM
+            const normalizeToYYYYMM = (dateStr: string | null) => {
+              if (!dateStr || dateStr === 'Present') return null
+              
+              // Already in YYYY-MM format
+              if (/^\d{4}-\d{2}$/.test(dateStr)) {
+                return dateStr
+              }
+              
+              // Parse "Month YYYY" or "Month Year" format
+              const date = new Date(dateStr)
+              if (!isNaN(date.getTime())) {
+                const year = date.getFullYear()
+                const month = String(date.getMonth() + 1).padStart(2, '0')
+                return `${year}-${month}`
+              }
+              
+              return null // Invalid format
+            }
+            
+            // Helper function to format YYYY-MM to "Month YYYY"
+            const formatDate = (dateStr: string) => {
+              if (!dateStr) return ''
+              
+              // Check if already formatted (contains space or non-numeric characters)
+              if (dateStr.includes(' ') || !/^\d{4}-\d{2}$/.test(dateStr)) {
+                return dateStr
+              }
+              
+              // Parse YYYY-MM format
+              const [year, month] = dateStr.split('-')
+              const yearNum = parseInt(year)
+              const monthNum = parseInt(month)
+              
+              // Validate
+              if (isNaN(yearNum) || isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
+                return dateStr // Return as-is if invalid
+              }
+              
+              const date = new Date(yearNum, monthNum - 1, 1)
+              return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+            }
+
+            const updatedEdu = eduExp.map((item: any) => {
+              const normalizedStart = normalizeToYYYYMM(item.startDate)
+              const normalizedEnd = normalizeToYYYYMM(item.endDate)
+              
+              return {
+                type: 'education',
+                title: item.title,
+                company: item.company,
+                location: item.location,
+                period: `${formatDate(normalizedStart || item.startDate)} - ${normalizedEnd ? formatDate(normalizedEnd) : 'Present'}`,
+                description: item.description,
+                achievements: item.achievements || [],
+                technologies: item.technologies || [],
+                icon: FaGraduationCap,
+                color: '#8b5cf6',
+                rawStartDate: normalizedStart, // Normalized YYYY-MM for sorting
+                rawEndDate: normalizedEnd      // Normalized YYYY-MM for sorting
+              }
+            })
+            // Sort by end date (latest first), then by start date
+            const sortedEdu = updatedEdu.sort((a: any, b: any) => {
+              console.log('=== Comparing ===')
+              console.log('A:', a.title, '| rawEndDate:', a.rawEndDate, '| rawStartDate:', a.rawStartDate)
+              console.log('B:', b.title, '| rawEndDate:', b.rawEndDate, '| rawStartDate:', b.rawStartDate)
+              
+              // Handle Present items first (using raw dates)
+              const aIsPresent = !a.rawEndDate || a.rawEndDate === ''
+              const bIsPresent = !b.rawEndDate || b.rawEndDate === ''
+              
+              if (aIsPresent && !bIsPresent) {
+                console.log('→ A is Present, comes first (-1)')
+                return -1
+              }
+              if (!aIsPresent && bIsPresent) {
+                console.log('→ B is Present, comes first (1)')
+                return 1
+              }
+              if (aIsPresent && bIsPresent) {
+                const aStart = a.rawStartDate.replace('-', '')
+                const bStart = b.rawStartDate.replace('-', '')
+                console.log('→ Both Present, comparing starts:', bStart, 'vs', aStart)
+                return bStart.localeCompare(aStart)
+              }
+              
+              // Both have end dates, compare them (latest first)
+              if (a.rawEndDate !== b.rawEndDate) {
+                const aEnd = a.rawEndDate.replace('-', '')
+                const bEnd = b.rawEndDate.replace('-', '')
+                console.log('→ Comparing end dates:', bEnd, '(', b.rawEndDate, ') vs', aEnd, '(', a.rawEndDate, ')')
+                console.log('→ Result:', bEnd.localeCompare(aEnd))
+                return bEnd.localeCompare(aEnd)
+              }
+              
+              // Same end date, compare start dates (latest first)
+              const aStart = a.rawStartDate.replace('-', '')
+              const bStart = b.rawStartDate.replace('-', '')
+              console.log('→ Same end date, comparing starts:', bStart, 'vs', aStart)
+              return bStart.localeCompare(aStart)
+            })
+            console.log('Final order:', sortedEdu.map(e => e.title))
+            setEducation(sortedEdu)
+          }
+        }
+        // Otherwise keep using default hardcoded data
+      })
+      .catch(err => {
+        console.log('Using default experience data', err)
+        // Keep using default hardcoded data on error
+      })
+  }, [])
+
   return (
     <section id="experience" className="section-padding bg-light">
       <Container>
@@ -116,8 +326,8 @@ const Experience = () => {
             </div>
             <div className="timeline experience-timeline">
               {experiences.map((exp, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={`timeline-item ${inView ? 'animate-fadeInLeft' : ''}`}
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
@@ -127,7 +337,7 @@ const Experience = () => {
                         <div className="timeline-icon-small me-3 flex-shrink-0">
                           <exp.icon className="fs-4" style={{ color: exp.color }} />
                         </div>
-                        
+
                         <div className="flex-grow-1">
                           <div className="mb-2">
                             <h5 className="h5 fw-bold mb-1">{exp.title}</h5>
@@ -143,14 +353,26 @@ const Experience = () => {
                               </span>
                             </div>
                           </div>
-                          
-                          <p className="text-muted small mb-2">{exp.description}</p>
-                          
+
+                          <div className="mb-3">
+                            <ul className="achievement-list-compact">
+                              {Array.isArray(exp.description) ? (
+                                exp.description.map((desc, descIndex) => (
+                                  <li key={descIndex} className="text-muted small mb-1">
+                                    {desc}
+                                  </li>
+                                ))
+                              ) : (
+                                <li className="text-muted small mb-1">{exp.description}</li>
+                              )}
+                            </ul>
+                          </div>
+
+                          <h6 className="fw-semibold small mb-2 d-flex align-items-center">
+                            <FaTrophy className="me-1 text-warning" />
+                            Key Achievements
+                          </h6>
                           <div className="achievements mb-2">
-                            <h6 className="fw-semibold small mb-1 d-flex align-items-center">
-                              <FaTrophy className="me-1 text-warning" />
-                              Key Achievements
-                            </h6>
                             <ul className="achievement-list-compact">
                               {exp.achievements.slice(0, 4).map((achievement, achIndex) => (
                                 <li key={achIndex} className="text-muted small mb-1">
@@ -159,14 +381,14 @@ const Experience = () => {
                               ))}
                             </ul>
                           </div>
-                          
+
                           <div className="technologies">
                             <div className="d-flex flex-wrap gap-1">
                               {exp.technologies.map((tech, techIndex) => (
-                                <span 
-                                  key={techIndex} 
+                                <span
+                                  key={techIndex}
                                   className="tech-badge-small"
-                                  style={{ 
+                                  style={{
                                     background: `${exp.color}15`,
                                     color: exp.color,
                                     border: `1px solid ${exp.color}30`
@@ -197,8 +419,8 @@ const Experience = () => {
             </div>
             <div className="timeline education-timeline">
               {education.map((exp, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={`timeline-item ${inView ? 'animate-fadeInRight' : ''}`}
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
@@ -208,7 +430,7 @@ const Experience = () => {
                         <div className="timeline-icon-small me-3 flex-shrink-0">
                           <exp.icon className="fs-4" style={{ color: exp.color }} />
                         </div>
-                        
+
                         <div className="flex-grow-1">
                           <div className="mb-2">
                             <h5 className="h5 fw-bold mb-1">{exp.title}</h5>
@@ -224,14 +446,26 @@ const Experience = () => {
                               </span>
                             </div>
                           </div>
-                          
-                          <p className="text-muted small mb-2">{exp.description}</p>
-                          
+
+                          <div className="mb-3">
+                            <ul className="achievement-list-compact">
+                              {Array.isArray(exp.description) ? (
+                                exp.description.map((desc, descIndex) => (
+                                  <li key={descIndex} className="text-muted small mb-1">
+                                    {desc}
+                                  </li>
+                                ))
+                              ) : (
+                                <li className="text-muted small mb-1">{exp.description}</li>
+                              )}
+                            </ul>
+                          </div>
+
+                          <h6 className="fw-semibold small mb-2 d-flex align-items-center">
+                            <FaTrophy className="me-1 text-warning" />
+                            Key Highlights
+                          </h6>
                           <div className="achievements mb-2">
-                            <h6 className="fw-semibold small mb-1 d-flex align-items-center">
-                              <FaTrophy className="me-1 text-warning" />
-                              Key Highlights
-                            </h6>
                             <ul className="achievement-list-compact">
                               {exp.achievements.map((achievement, achIndex) => (
                                 <li key={achIndex} className="text-muted small mb-1">
@@ -240,14 +474,14 @@ const Experience = () => {
                               ))}
                             </ul>
                           </div>
-                          
+
                           <div className="technologies">
                             <div className="d-flex flex-wrap gap-1">
                               {exp.technologies.map((tech, techIndex) => (
-                                <span 
-                                  key={techIndex} 
+                                <span
+                                  key={techIndex}
                                   className="tech-badge-small"
-                                  style={{ 
+                                  style={{
                                     background: `${exp.color}15`,
                                     color: exp.color,
                                     border: `1px solid ${exp.color}30`

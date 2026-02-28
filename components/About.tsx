@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import { FaGraduationCap, FaBriefcase, FaCode, FaAward, FaUsers, FaRocket } from 'react-icons/fa'
 import { useInView } from 'react-intersection-observer'
@@ -11,14 +12,15 @@ const About = () => {
     triggerOnce: true,
   })
 
-  const stats = [
+  // Default hardcoded data
+  const defaultStats = [
     { icon: FaBriefcase, number: '3+', label: 'Years Experience' },
     { icon: FaCode, number: '10+', label: 'Web Applications' },
     { icon: FaUsers, number: '98%', label: 'User Satisfaction' },
     { icon: FaRocket, number: '30%', label: 'Performance Boost' },
   ]
 
-  const highlights = [
+  const defaultHighlights = [
     {
       icon: FaGraduationCap,
       title: 'Education Excellence',
@@ -41,14 +43,84 @@ const About = () => {
     },
   ]
 
+  const defaultBadges = [
+    'Full Stack Development',
+    'Cloud Architecture',
+    'Agile Leadership',
+    'AI/ML Enthusiast'
+  ]
+
+  const defaultBio = [
+    "I'm a dedicated Software Engineer with 3.3 years of industry experience, specializing in designing and developing robust, scalable applications. My journey combines technical expertise with continuous learning, and I hold an MBA in Artificial Intelligence and Machine Learning plus bachelor's of Engineering in Information Technology.",
+    "My passion lies in creating innovative solutions that not only meet business objectives but also deliver exceptional user experiences. I thrive in collaborative environments and have successfully led cross-functional teams to deliver projects on schedule while maintaining high code quality standards.",
+    "Also, I am experienced with AWS and Google Cloud Platform (GCP), microservices architecture, scalable backend systems, and modern frontend frameworks (React, Angular). Strong in system design, data structures & algorithms, authentication/authorization, database optimization, and performance engineering, with proven end-to-end delivery from architecture to deployment, monitoring, and production support."
+  ]
+
+  // State for dynamic data
+  const [aboutData, setAboutData] = useState<any>(null)
+  const [stats, setStats] = useState(defaultStats)
+  const [highlights, setHighlights] = useState(defaultHighlights)
+  const [badges, setBadges] = useState(defaultBadges)
+  const [bio, setBio] = useState(defaultBio)
+
+  useEffect(() => {
+    // Fetch data from admin API
+    fetch('/api/portfolio/about')
+      .then(res => res.json())
+      .then(data => {
+        // Only update if we have actual admin data (not empty object)
+        if (data && Object.keys(data).length > 0 && (data.bio || data.stats || data.highlights || data.badges)) {
+          setAboutData(data)
+
+          // Update stats if available
+          if (data.stats && data.stats.length > 0) {
+            const updatedStats = data.stats.map((stat: any, index: number) => ({
+              icon: defaultStats[index]?.icon || FaBriefcase,
+              number: stat.number,
+              label: stat.label
+            }))
+            setStats(updatedStats)
+          }
+
+          // Update highlights if available
+          if (data.highlights && data.highlights.length > 0) {
+            const updatedHighlights = data.highlights.map((highlight: any, index: number) => ({
+              icon: defaultHighlights[index]?.icon || FaAward,
+              title: highlight.title,
+              description: highlight.description
+            }))
+            setHighlights(updatedHighlights)
+          }
+
+          // Update badges if available
+          if (data.badges && data.badges.length > 0) {
+            setBadges(data.badges)
+          }
+
+          // Update bio if available
+          if (data.bio) {
+            setBio([data.bio])
+          }
+        }
+        // Otherwise keep using default hardcoded data
+      })
+      .catch(err => {
+        console.log('Using default about data', err)
+        // Keep using default hardcoded data on error
+      })
+  }, [])
+
   return (
     <section id="about" className="section-padding bg-light">
       <Container>
         <Row className="justify-content-center mb-5">
-          <Col lg={8} className="text-center">
+          <Col lg={10} className="text-center">
             <h2 className="display-2 fw-bold mb-3">
               About <span className="gradient-text">Me</span>
             </h2>
+            <p className="lead text-muted">
+              Full-Stack Software Engineer | React, Node.js, AWS | Building Scalable Cloud-Native Applications
+            </p>
             <p className="lead text-muted">
               Passionate software engineer with a drive for innovation and excellence
             </p>
@@ -63,41 +135,27 @@ const About = () => {
                 <span className="gradient-text">Precision</span>
               </h3>
 
-              <p className="text-muted mb-4">
-                I'm a dedicated Software Engineer with 3.3 years of industry experience,
-                specializing in designing and developing robust, scalable applications. My journey
-                combines technical expertise with continuous learning, and I hold an MBA
-                in Artificial Intelligence and Machine Learning plus bachelor's of Engineering in Information Technology.
-              </p>
-
-              <p className="text-muted mb-4">
-                My passion lies in creating innovative solutions that not only meet business
-                objectives but also deliver exceptional user experiences. I thrive in collaborative
-                environments and have successfully led cross-functional teams to deliver projects
-                on schedule while maintaining high code quality standards.
-              </p>
-
-              <p className="text-muted mb-4">
-                Also, I am experienced with AWS and
-                Google Cloud Platform (GCP), microservices architecture, scalable backend systems, and modern
-                frontend frameworks (React, Angular). Strong in system design, data structures & algorithms,
-                authentication/authorization, database optimization, and performance engineering, with proven
-                end-to-end delivery from architecture to deployment, monitoring, and production support.
-              </p>
+              {bio.map((paragraph, index) => (
+                <p key={index} className="text-muted mb-4">
+                  {paragraph}
+                </p>
+              ))}
 
               <div className="d-flex flex-wrap gap-3 mb-4">
-                <span className="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
-                  Full Stack Development
-                </span>
-                <span className="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
-                  Cloud Architecture
-                </span>
-                <span className="badge bg-info-subtle text-info px-3 py-2 rounded-pill">
-                  Agile Leadership
-                </span>
-                <span className="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">
-                  AI/ML Enthusiast
-                </span>
+                {badges.map((badge, index) => {
+                  const colors = [
+                    { bg: 'bg-primary-subtle', text: 'text-primary' },
+                    { bg: 'bg-success-subtle', text: 'text-success' },
+                    { bg: 'bg-info-subtle', text: 'text-info' },
+                    { bg: 'bg-warning-subtle', text: 'text-warning' }
+                  ]
+                  const color = colors[index % colors.length]
+                  return (
+                    <span key={index} className={`badge ${color.bg} ${color.text} px-3 py-2 rounded-pill`}>
+                      {badge}
+                    </span>
+                  )
+                })}
               </div>
 
               <a href="#contact" className="btn-primary-custom">

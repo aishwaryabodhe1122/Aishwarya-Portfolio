@@ -1,0 +1,125 @@
+[
+  {
+    "id": "1",
+    "type": "work",
+    "title": "Full-stack Developer",
+    "company": "PluginLive",
+    "location": "Pune, India",
+    "startDate": "2025-07",
+    "endDate": "Feb 2026",
+    "description": [
+      "Developing comprehensive assessment platform for student evaluation",
+      "Building ATS system to streamline recruitment and placement processes",
+      "Creating responsive web applications with modern React.js architecture",
+      "Implementing robust backend APIs using Node.js and PostgreSQL",
+      "Designing scalable database schemas for student and placement data",
+      "Optimizing application performance and user experience",
+      "Collaborating with cross-functional teams for feature development"
+    ],
+    "technologies": [
+      "React.js",
+      "Node.js",
+      "PostgreSQL",
+      "JavaScript",
+      "REST APIs",
+      "Git"
+    ]
+  },
+  {
+    "id": "2",
+    "type": "work",
+    "title": "Software Engineer",
+    "company": "Accenture",
+    "location": "Pune, India",
+    "startDate": "Dec 2022",
+    "endDate": "July 2025",
+    "description": [
+      "Developed and maintained 10+ web applications using MEAN/MERN stacks",
+      "Boosted data-handling efficiency by 30% and enhanced overall performance",
+      "Designed and deployed scalable, cloud-based solutions using AWS services",
+      "Created responsive, dynamic UI components achieving 98% user satisfaction",
+      "Led Agile development initiatives, reducing project turnaround time by 15%",
+      "Enhanced application functionality with SharePoint Framework (SPFx)",
+      "Improved software quality by raising unit test coverage from 60% to 85%"
+    ],
+    "technologies": [
+      "React.js",
+      "Angular",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "AWS",
+      "SPFx"
+    ]
+  },
+  {
+    "id": "3",
+    "type": "education",
+    "title": "MBA in Artificial Intelligence & Machine Learning",
+    "company": "D.Y. Patil Centre for Online Learning",
+    "location": "Pune, India",
+    "startDate": "July 2023",
+    "endDate": "Aug 2025",
+    "description": [
+      "Achieved overall CGPA of 8.7",
+      "Focusing on AI/ML integration in software solutions",
+      "Advanced coursework in machine learning algorithms and data science"
+    ],
+    "technologies": [
+      "Python",
+      "Machine Learning",
+      "Data Science",
+      "AI Algorithms"
+    ]
+  },
+  {
+    "id": "4",
+    "type": "education",
+    "title": "Bachelor of Engineering - Information Technology",
+    "company": "Bharati Vidyapeeth College of Engineering for Women",
+    "location": "Pune, India",
+    "startDate": "Aug 2018",
+    "endDate": "July 2022",
+    "description": [
+      "Graduated with CGPA of 8.37",
+      "Demonstrated consistent academic excellence",
+      "Strong foundation in programming and system design",
+      "Active participation in technical projects and competitions"
+    ],
+    "technologies": [
+      "Java",
+      "C++",
+      "Data Structures",
+      "Algorithms",
+      "Database Systems"
+    ]
+  },
+  {
+    "id": "1772215814734",
+    "title": "Test",
+    "company": "Test",
+    "location": "Test",
+    "startDate": "2026-02",
+    "endDate": "Present",
+    "description": [
+      "Test"
+    ],
+    "technologies": [
+      "Test"
+    ],
+    "type": "work"
+  },
+  {
+    "id": "1772215837697",
+    "title": "Test",
+    "company": "Test",
+    "location": "Test",
+    "startDate": "2026-02",
+    "endDate": "Present",
+    "description": [
+      "Test"
+    ],
+    "technologies": [],
+    "type": "education"
+  }
+]
