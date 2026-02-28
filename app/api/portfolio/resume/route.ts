@@ -4,16 +4,33 @@ import { authOptions } from '@/lib/auth'
 import fs from 'fs/promises'
 import path from 'path'
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'about.json')
+const DATA_FILE = path.join(process.cwd(), 'data', 'resume.json')
 
 export async function GET() {
   try {
     const data = await fs.readFile(DATA_FILE, 'utf-8')
     return NextResponse.json(JSON.parse(data))
   } catch (error) {
-    // Return default data if file doesn't exist
-    const { initialAboutData } = await import('@/data/portfolioData')
-    return NextResponse.json(initialAboutData)
+    // Return default structure if file doesn't exist
+    return NextResponse.json({
+      personalInfo: {
+        name: "",
+        title: "",
+        email: "",
+        phone: "",
+        location: "",
+        linkedin: "",
+        github: "",
+        website: ""
+      },
+      summary: "",
+      experience: [],
+      education: [],
+      skills: { technical: [], soft: [] },
+      certifications: [],
+      projects: [],
+      template: "modern"
+    })
   }
 }
 
@@ -34,8 +51,8 @@ export async function POST(request: NextRequest) {
     } catch {
       await fs.mkdir(dataDir, { recursive: true })
     }
-
-    // Save data
+    
+    // Save to file
     await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2))
     
     // Create backup
@@ -47,12 +64,12 @@ export async function POST(request: NextRequest) {
     }
     
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
-    const backupFile = path.join(backupDir, `about-${timestamp}.json`)
+    const backupFile = path.join(backupDir, `resume-${timestamp}.json`)
     await fs.writeFile(backupFile, JSON.stringify(data, null, 2))
-
+    
     return NextResponse.json({ success: true, data })
   } catch (error) {
-    console.error('Error saving about data:', error)
+    console.error('Error saving resume data:', error)
     return NextResponse.json({ error: 'Failed to save data' }, { status: 500 })
   }
 }

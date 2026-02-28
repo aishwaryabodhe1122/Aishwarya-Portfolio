@@ -20,6 +20,7 @@ A modern, responsive portfolio website built with Next.js, React, and Python Fas
 - **Experience**: Timeline view of work experience and education
 - **Projects**: Interactive project cards with detailed modals
 - **Blog**: Full-featured blog with markdown support, categories, tags, and search
+- **Resume**: Interactive resume viewer with multiple templates and export options
 - **Contact**: Functional contact form with validation
 
 ### Admin Dashboard
@@ -29,9 +30,20 @@ A modern, responsive portfolio website built with Next.js, React, and Python Fas
 - **Skills Management**: Add/edit/delete technical and soft skills with categories
 - **Experience & Education**: Manage work experience and educational background
 - **Blog Management**: Create, edit, and delete blog posts with rich text editor (TipTap)
+- **Resume Management**: Edit personal info, summary, and select resume templates
 - **Dynamic Data**: All changes reflect immediately on the portfolio
 - **File-based Storage**: JSON file storage with automatic backups
 - **Optimized Performance**: Dynamic imports and SWR caching for fast navigation
+
+### Resume Builder/Viewer
+- **Interactive Resume Viewer**: Professional resume display with real-time data integration
+- **Multiple Templates**: Choose from Modern, Classic, and Minimal resume designs
+- **Template Customization**: Switch between templates instantly to find the perfect style
+- **Export Options**: Download resume in multiple formats (PDF, DOCX)
+- **Print-Friendly**: Optimized layout for printing with proper page breaks
+- **Data Integration**: Automatically pulls experience, education, and skills from portfolio
+- **Theme Support**: Consistent appearance in both light and dark modes
+- **Responsive Design**: Looks great on all devices
 
 ### Backend (Future AI Features)
 - **FastAPI Backend**: RESTful API with automatic documentation
@@ -53,6 +65,9 @@ A modern, responsive portfolio website built with Next.js, React, and Python Fas
 - **SWR** - React Hooks for data fetching
 - **TipTap** - Rich text editor for blog posts
 - **bcryptjs** - Password hashing for authentication
+- **jsPDF** - PDF generation for resume export
+- **docx** - DOCX generation for resume export
+- **file-saver** - File download functionality
 
 ### Backend
 - **Python FastAPI** - Modern, fast web framework
@@ -136,6 +151,7 @@ A modern, responsive portfolio website built with Next.js, React, and Python Fas
    - `/admin/skill-categories` - Manage skill categories
    - `/admin/experience` - Manage experience and education
    - `/admin/blog` - Create and manage blog posts
+   - `/admin/resume` - Manage resume personal info and template
 
 ### Backend Setup (Optional)
 

@@ -1,0 +1,22 @@
+{
+  "personalInfo": {
+    "name": "Aishwarya Bodhe",
+    "title": "Full-Stack Software Engineer",
+    "email": "aishwaryabodhe1122@gmail.com",
+    "phone": "+91 8317206235",
+    "location": "Pune, Maharashtra, India",
+    "linkedin": "linkedin.com/in/aishwarya-bodhe",
+    "github": "github.com/aishwaryabodhe",
+    "website": "aishwaryabodhe.com"
+  },
+  "summary": "Results-driven Full-Stack Software Engineer with 3+ years of experience in developing scalable web applications using MEAN/MERN stacks. Expertise in React.js, Node.js, and cloud technologies (AWS). Currently pursuing MBA in AI/ML to integrate cutting-edge AI solutions into software development. Proven track record of improving application performance by 30% and achieving 98% user satisfaction.",
+  "experience": [],
+  "education": [],
+  "skills": {
+    "technical": [],
+    "soft": []
+  },
+  "certifications": [],
+  "projects": [],
+  "template": "modern"
+}

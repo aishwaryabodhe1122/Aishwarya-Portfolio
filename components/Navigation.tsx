@@ -12,9 +12,11 @@ const Navigation = () => {
   const [expanded, setExpanded] = useState(false)
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [isResumePage, setIsResumePage] = useState(false)
 
   useEffect(() => {
     setMounted(true)
+    setIsResumePage(document.body.classList.contains('resume-page-active'))
   }, [])
 
   useEffect(() => {
@@ -23,8 +25,17 @@ const Navigation = () => {
       setScrolled(isScrolled)
     }
 
+    const observer = new MutationObserver(() => {
+      setIsResumePage(document.body.classList.contains('resume-page-active'))
+    })
+
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
+
     window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
+    }
   }, [])
 
   const handleNavClick = (target: string) => {
@@ -48,13 +59,13 @@ const Navigation = () => {
       expand="lg"
       fixed="top"
       className={`transition-all duration-300 ${
-        scrolled 
+        scrolled || isResumePage
           ? (theme === 'dark' ? 'navbar-scrolled-dark' : 'navbar-scrolled-light')
           : 'bg-transparent'
       }`}
       expanded={expanded}
     >
-      <Container>
+      <Container style={{ maxWidth: '1190px' }}>
         <Navbar.Brand 
           href="#home" 
           className="d-flex align-items-center fw-bold fs-4"
@@ -64,7 +75,7 @@ const Navigation = () => {
           }}
         >
           {/* <FaCode className="me-2 gradient-text" /> */}
-          <span className={scrolled ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'}>
+          <span className={theme === 'dark' ? 'text-white' : (scrolled || isResumePage ? 'text-dark' : 'text-white')}>
             Aishwarya Bodhe
           </span>
         </Navbar.Brand>
@@ -75,9 +86,9 @@ const Navigation = () => {
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? (
-            <FaTimes className={scrolled ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'} />
+            <FaTimes className={theme === 'dark' ? 'text-white' : 'text-dark'} />
           ) : (
-            <FaBars className={scrolled ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'} />
+            <FaBars className={theme === 'dark' ? 'text-white' : 'text-dark'} />
           )}
         </Navbar.Toggle>
 
@@ -90,13 +101,14 @@ const Navigation = () => {
               { href: 'experience', label: 'Experience', isSection: true },
               { href: 'projects', label: 'Projects', isSection: true },
               { href: '/blog', label: 'Blog', isSection: false },
+              { href: '/resume', label: 'Resume', isSection: false },
               { href: 'contact', label: 'Contact', isSection: true },
             ].map((item) => (
               <Nav.Link
                 key={item.href}
                 href={item.isSection ? `#${item.href}` : item.href}
                 className={`mx-2 fw-500 position-relative nav-link-custom ${
-                  scrolled ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'
+                  (scrolled || isResumePage) ? (theme === 'dark' ? 'text-white' : 'text-dark') : 'text-white'
                 }`}
                 onClick={(e) => {
                   if (item.isSection) {
@@ -110,19 +122,19 @@ const Navigation = () => {
                 {item.label}
               </Nav.Link>
             ))}
-            <div className="d-flex align-items-center gap-3">
-              <ThemeToggle />
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                className="d-flex align-items-center text-decoration-none"
-              >
-                <RippleButton variant="primary">
-                  Download CV
-                </RippleButton>
-              </a>
-            </div>
           </Nav>
+          <div className="d-flex align-items-center gap-3 ms-lg-3">
+            <ThemeToggle />
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              className="d-flex align-items-center text-decoration-none"
+            >
+              <RippleButton variant="primary">
+                Download CV
+              </RippleButton>
+            </a>
+          </div>
         </Navbar.Collapse>
       </Container>
 
